@@ -1,0 +1,41 @@
+/* Start:Reset styles */
+div, p, img, h1, h2, h3, h4, h5, h6, ul, li, a, body, header, footer, section, main, form {
+    box-sizing: border-box;
+    display: block;
+    margin: 0;
+	padding: 0;
+	border: 0;
+    line-height: 1;
+    list-style: none;
+    text-decoration: none;
+}
+a, button { cursor: pointer; }
+a:active, a:focus, a:hover, a:visited { text-decoration: none; }
+/* The End:Reset styles */
+
+
+/* Start:General styles */
+#root {
+    font-size: 8px;
+    font-family: sans-serif;
+}
+
+#root input, #root button {
+    min-width: 80px;
+    max-width: 160px;
+    font-size: 0.8rem;
+    color: darkslategray;
+    background-color: white;
+    border: 1px darkslategray solid;
+    border-radius: 3px;
+    margin: 30px 10px;
+    padding: 2px 4px;
+    text-align: center;
+}
+
+#root input::placeholder {
+  opacity: 0.5;
+  color: rgb(0, 0, 0);
+  font-size: 0.8rem;
+  text-align: left;
+}
