@@ -60,7 +60,6 @@ if ( autoGenerateBtn ) {
         const autoPokemons = await fetchAutoPokemon(30, 1, 1);
         
         // Clear previous cards and render all fetched Pokemons
-        containerPokedex.innerHTML = "";
         autoPokemons.forEach(pokemon => renderPokemonCard(pokemon));
 
     });  
