@@ -7,22 +7,25 @@
     <title>Advansed Pokedex</title>
   </head>
   <body>
-    <div id="dot-bg"></div>
+    <div id="dot-bg"></div><!-- Dot background for this page-->
+
     <div id="heading">
       <h1>"PokéBench"</h1>
       <h3>Catch some Pokemons to your board</h3>
     </div>
-    <div id="autogen">
-      <input id="autogenBtn" type="button" value="Auto Generate" />
+
+    <div id="autogen"><!-- Generate button (1 page with 30 Pokemon cards) -->
+      <input id="autogenBtn" type="button" value="Auto Generate 30 Pokemons" />
     </div>
-    <div id="search">
-      <!-- Searching a pokemon -->
+    
+    <div id="search"><!-- Searching a pokemon --> 
       <!-- Search field where users will search for Pokemon’s name or id. -->
         <input id="name-id" type="text" placeholder="Pokemon name or id" required />
-
+      <!-- Search button -->
         <input id="searchBtn" type="button" value="Search" />
     </div>
-    <div id="pokedex"></div>
+
+    <div id="pokedex"></div><!-- Pokemon's Cards container-->
 
     <script src="src/script.js"></script>
   </body>
