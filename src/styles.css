@@ -19,7 +19,24 @@ body {
     font-size: 8px;
     font-family: 'Segoe UI', Roboto, 'Open Sans', 'Helvetica Neue', sans-serif;
     width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+#dot-bg {
+    /* Dotted background */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
+    z-index: -1;
+
+    background-image: radial-gradient(#ff6b26 6%, transparent 6%),
+        radial-gradient(#ff9b36 8%, transparent 8%); /* add a second dots row for diagonal */
+    background-color: #e53935;
+    background-position: 0 0, 60px 60px; /* second position is a half of bg-size for diagonal spacing effect */
+    background-size: 120px 120px; /* bg tale size */  
 }
 input, button {
     min-width: 80px;
@@ -40,7 +57,9 @@ input::placeholder {
   font-size: 0.8rem;
   text-align: left;
 }
+/* End:General styles */
 
+/* Start:Heading styles */
 #heading {
     display: flex;
     justify-content: center;
@@ -64,6 +83,9 @@ input::placeholder {
     -webkit-text-stroke: 1px rgb(21, 42, 42);
     text-align: center;
 }
+/* End:Heading styles */
+
+/* Start:Form styles */
 #autogen {
     display: flex;
     width: 100%;
@@ -71,7 +93,6 @@ input::placeholder {
     justify-content: center;
     align-items: center;
 }
-
 #autogen input {
     min-width: 240px;
     max-width: 300px;
@@ -91,21 +112,235 @@ input::placeholder {
     justify-content: center;
     align-items: center;
 }
+/* End:Form styles */
 
 
-#dot-bg {
-    /* Dotted background */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
 
-    background-image: radial-gradient(#ff6b26 6%, transparent 6%),
-        radial-gradient(#ff9b36 8%, transparent 8%); /* add a second dots row for diagonal */
-    background-color: #e53935;
-    background-position: 0 0, 60px 60px; /* second position is a half of bg-size for diagonal spacing effect */
-    background-size: 120px 120px; /* bg tale size */
-    
+/* Start:Cards styles */
+#pokedex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 60vw;
+    max-width: 800px;
+    min-height: 60vh;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
 }
+#pokedex .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 160px;
+    background-color: whitesmoke;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(105, 105, 105, 0.3);
+    /* to clip child elements (scaled image) that overflow */
+    overflow: hidden;
+    /* Add the transition property here so the browser knows to animate the transform */
+    transition: transform 0.3s ease-in-out;
+
+    /* Crucial for 3D */
+    perspective: 1000px; 
+    perspective-origin: center;
+}
+/* Scales the card up by 3% */
+#pokedex .card:hover { transform: scale(1.03); } 
+
+/* --- The Card Flip --- */
+#pokedex .card .card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d; 
+    /* Allows 3D perspective */
+    border-radius: 8px;
+}
+#pokedex .card .card-inner.flip {
+  transform: rotateY(180deg);
+  border-radius: 8px;
+}
+/* Position the front and back side */
+.card-front, .card-back {
+    /* The front and back elements occupy the same space */
+    position: relative;
+    width: 100%; 
+    height: 100%; 
+    /* Safari */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* Hides back when rotated */
+}
+/* --- The Card Back Content --- */
+/* Style the back side */
+.card-back {
+    background-color: #f6d5bd;
+    transform: rotateY(180deg); 
+    /* Starts face down */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;   
+}
+.card-back .back-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.card-back .back-button-name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.card-back .back-button-name h2 { 
+    margin: 20px 0 10px 0; 
+    font-size: 1.4rem;
+    font-weight: bold;
+    max-width: 160px;
+}
+.card-back .back-content p { 
+    margin: 0 20px;
+    background-color: #ffffff;
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(105, 105, 105, 0.3);
+    font-size: 0.8rem;
+    color: #746969; 
+    max-width: 160px;
+}
+/* Card Buttons for Flip and Battle */
+/* Style all buttons in card container */
+#pokedex .card .card-inner button {
+    display: inline-block;
+    margin: 4px 2px;
+    background-color: #2181dc;
+    padding: 4px 0px;
+    border-radius: 4px;
+    border: #0c4983 1px solid;
+    box-shadow: 0 2px 2px rgba(3, 46, 115, 0.292);
+    font-size: 0.8rem;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.1s linear;
+    max-width: 60px;
+}
+#pokedex .card .card-inner .front-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+/* --- 4. The Card Front Image and Info --- */
+#pokedex .card .cardimg {
+    background-color: rgb(208, 208, 208);
+    width: 160px;
+    height: auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+    object-fit: contain;
+/* Add the transition property here so the browser knows to animate the transform */
+    transition: transform 0.2s ease-in-out; 
+}
+/* The Trigger State (e.g., when the user hovers over the logo) */
+#pokedex .card .cardimg:hover {
+    transform: scale(1.05); /* Scales the card image up by 5% */
+}
+#pokedex .card .cardinf {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 8px;
+    margin: 0;
+    width: 100%;
+    height: 100px;
+}
+#pokedex .card .cardinf .pokemon-index { 
+    font-size: 0.8rem;
+    color: #2181dc;
+    text-shadow: 0 0.8px 0.8px rgba(0, 0, 0, 0.2);
+}   
+#pokedex .card .cardinf .pokemon-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 4px 0;
+    max-width: 160px;
+}
+#pokedex .card .card-inner .pokemon-type {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #555;
+    margin: 16px 0;
+}
+#pokedex .card .card-inner .pokemon-type .type {
+    background-color: #878787;
+    padding: 4px 8px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(105, 105, 105, 0.3);
+    font-size: 0.8rem;
+    color: #ffffff;
+}
+#pokedex .card .cardinf .front-buttons {
+    max-width: 160px;
+}
+#pokedex .card .cardinf .front-buttons button {
+    max-width: 70px;
+}
+/* ...End:Cards styles... */
+
+
+
+/* Footer */
+/* End:Cards styles */
+
+#footer {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    position: relative;
+    margin-top: 30px;
+}
+#footer span {
+    font-size: 0.8rem;
+    color: darkslategray;
+    margin: 10px;
+    padding: 2px 4px;
+    text-align: center;
+}
+
+
+
+/* --- MEDIA QUERY --- */
+
+/* --- Tablet (Under 900px) --- */
+/*  @media (max-width: 900px) {}  */
+
+
+/* --- Mobile (Under 600px) --- */
+/*  @media (max-width: 600px) {}  */
