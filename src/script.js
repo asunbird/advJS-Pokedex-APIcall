@@ -1,5 +1,7 @@
-// ........... POKEDEX Fetch
-const containerPokedex = document.getElementById("pokedex");
+// ........... POKEDEX Fetch Auto Generate ...................
+    // automatically generates 151 Pokemon cards on the Bench page
+const containerPokedex = document.getElementById("pokedex"); // div container where All Pokemon Cards will be located
+const autoGenerateBtn = document.getElementById("autogenBtn"); // "Auto Generate" button
 
 if (containerPokedex) {
     const fetchPokemon = async () => {
@@ -15,12 +17,12 @@ if (containerPokedex) {
 
 
 // ........... THE POKEMON SEARCH ..............
-const searchPokemon = document.getElementById("searchBtn");
+const searchPokemonBtn = document.getElementById("searchBtn");
 const nameIdInput = document.getElementById("name-id");
 
 
-if (searchPokemon && nameIdInput) {
-    searchPokemon.addEventListener("click", async (event) => {
+if (searchPokemonBtn && nameIdInput) {
+    searchPokemonBtn.addEventListener("click", async (event) => {
         event.preventDefault(); // keep wave from form behavior
         const query = nameIdInput?.value?.trim(); // query reads user input.
         // (?.) ensures that if nameIdInput is null or undefined returns undefined instead an error.
@@ -30,19 +32,19 @@ if (searchPokemon && nameIdInput) {
 
         if (!query) {
             alert("Enter Pokemon name or id to search for!");
-            searchPokemon.style.backgroundColor = "grey";
+            searchPokemonBtn.style.backgroundColor = "grey";
             setTimeout(() => {
-            searchPokemon.style.backgroundColor = "white";
+            searchPokemonBtn.style.backgroundColor = "white";
             }, 150);
             return;
         }
 
         // search logic here (fetch, render, etc.)
             // button color changes
-        searchPokemon.style.backgroundColor = "green";
+        searchPokemonBtn.style.backgroundColor = "green";
             // immediate toggle style
         setTimeout(() => {
-            searchPokemon.style.backgroundColor = "white";
+            searchPokemonBtn.style.backgroundColor = "white";
         }, 150);
 
             
@@ -51,12 +53,20 @@ if (searchPokemon && nameIdInput) {
             // Extract the actual user input value
         let searchInputData = document.getElementById("name-id").value;
 
+            // simple GET request:
         const apiResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchInputData}`);
         
         if (apiResponse.ok) {
             const pokResponseData = await apiResponse.json();
-            console.log(pokResponseData);
-            nameIdInput.value = "";
+            console.log("found:", pokResponseData);
+            nameIdInput.value = ""; // clear input field
+        } else if (apiResponse.status === 404) {
+            console.warn(`${searchInputData} doesn't exist.`);
+            alert(`Pokemon "${searchInputData}" not found.`);
+            // There are some Pokemons that don’t exist but should, 999 doesn’t exist but 1000 does.
+        } else {
+            console.error("API error", apiResponse.status);
+            alert(`Error: ${apiResponse.status}`);
         }
 
     });
