@@ -333,7 +333,7 @@ input::placeholder {
     padding: 2px 4px;
     text-align: center;
 }
-
+#footer a {display: inline-block; color: green; }
 
 
 /* --- MEDIA QUERY --- */
