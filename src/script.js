@@ -1,6 +1,5 @@
 // ........... POKEDEX Fetch Auto Generate ...................
     // automatically generates 30 (1 page for pagination) Pokemon cards on the Bench page
-const containerPokedex = document.getElementById("pokedex"); // div container where All Pokemon Cards will be located
 const autoGenerateBtn = document.getElementById("autogenBtn"); // "Auto Generate" button
 
 if (containerPokedex && autoGenerateBtn ) {
@@ -43,9 +42,7 @@ if (containerPokedex && autoGenerateBtn ) {
     });  
 }
 
-
-
-// ........... THE POKEMON SEARCH ..............
+// ........... THE POKEMON SEARCH Fetch ..............
 const searchPokemonBtn = document.getElementById("searchBtn");
 const nameIdInput = document.getElementById("name-id");
 
@@ -101,3 +98,6 @@ if (searchPokemonBtn && nameIdInput) {
     });
 }
 
+// ........... RENDER CARDS ..............
+    // function for rendering Pokemon Card with Pokemon's Parameters
+const containerPokedex = document.getElementById("pokedex"); // div container where All Pokemon Cards will be located
