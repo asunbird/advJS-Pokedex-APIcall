@@ -15,12 +15,14 @@ a:active, a:focus, a:hover, a:visited { text-decoration: none; }
 
 
 /* Start:General styles */
-#root {
+body {
     font-size: 8px;
     font-family: sans-serif;
+    width: 100vw;
+    height: 100vh;
 }
 
-#root input, #root button {
+input, button {
     min-width: 80px;
     max-width: 160px;
     font-size: 0.8rem;
@@ -33,9 +35,26 @@ a:active, a:focus, a:hover, a:visited { text-decoration: none; }
     text-align: center;
 }
 
-#root input::placeholder {
+input::placeholder {
   opacity: 0.5;
   color: rgb(0, 0, 0);
   font-size: 0.8rem;
   text-align: left;
+}
+
+#dot-bg {
+    /* Dotted background */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+
+    background-image: radial-gradient(#ff6b26 6%, transparent 6%),
+        radial-gradient(#ff9b36 8%, transparent 8%); /* add a second dots row for diagonal */
+    background-color: #e53935;
+    background-position: 0 0, 60px 60px; /* second position is a half of bg-size for diagonal spacing effect */
+    background-size: 120px 120px; /* bg tale size */
+    
 }
