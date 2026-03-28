@@ -66,7 +66,7 @@ if ( autoGenerateBtn ) {
 }
 
 // ........... THE POKEMON SEARCH Fetch ..............
-const searchPokemonBtn = document.getElementById("searchBtn");
+const searchPokemonBtn = document.getElementById("searchAddBtn");
 const nameIdInput = document.getElementById("name-id");
 
 

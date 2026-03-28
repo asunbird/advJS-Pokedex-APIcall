@@ -19,21 +19,32 @@
       <h3>Catch some Pokemons to your board</h3>
     </div>
 
-    <!-- Generate button (1 page with 30 Pokemon cards) -->
-    <div id="autogen">
-      <input id="autogenBtn" type="button" value="Auto Generate 30 Pokemons" />
-    </div>
+    <!-- Buttons for generating Pokemon cards -->
+    <section id="gen-buttons">
+        <!-- Generate button (1 page with 30 Pokemon cards) -->
+        <div id="autogen">
+            <input id="autogenBtn" type="button" value="Auto Generate 30 Pokemons" />
+        </div>
     
-    <!-- Searching a pokemon -->
-    <div id="search"> 
-        <!-- Search field where users will search for Pokemon’s name or id. -->
-        <input id="name-id" type="text" placeholder="Pokemon name or id" required />
-        <!-- Search button -->
-        <input id="searchBtn" type="button" value="Search" />
-    </div>
+        <!-- Searching and Adding a pokemon -->
+        <div id="search-add"> 
+            <!-- Search field where users will search for Pokemon’s name or id. -->
+            <input id="name-id" type="text" placeholder="Pokemon name or id" required />
+            <!-- Search button -->
+            <input id="searchAddBtn" type="button" value="Search & Add" />
+        </div>
+    </section>
 
-    <!-- Pokemon's Cards container-->
-    <div id="pokedex"></div>
+
+    <!-- Pokemon's Cards container with Search filter -->
+    <div id="pokedex">
+      <!-- Search filter -->
+      <h3>Search filter inside your board</h3>
+      <div id="search-filter">
+        <input id="search-filter-input" type="text" placeholder="Search Pokemon" />
+        <input id="search-filter-btn" type="button" value="Search" />
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer id="footer">
