@@ -1,11 +1,18 @@
 // ........... POKEDEX Fetch Auto Generate ...................
     // automatically generates 30 (1 page for pagination) Pokemon cards on the Bench page
 const containerPokedex = document.getElementById("pokedex"); // div container where All Pokemon Cards will be located
-const autoGenerateBtn = document.getElementById("autogenBtn"); // "Auto Generate" button
+const autoGenerateBtn = document.getElementById("autogenBtn"); // "Auto Generate" button for 30 Pokemons
+
+// State variables to remember the last fetched pokemon index and current page
+let currentFetchIndex = 1;
+let currentPage = 1;
 
 if ( autoGenerateBtn ) {
     autoGenerateBtn.addEventListener("click", async (event) => {
         event.preventDefault(); // keep wave from form behavior
+        
+        // update button state/text to show the loading progress
+        autoGenerateBtn.value = `Loading Page ${currentPage}...`;
         
         // button color changes shows that button clicked
         autoGenerateBtn.style.backgroundColor = "green";
@@ -15,11 +22,16 @@ if ( autoGenerateBtn ) {
             }, 150);
 
         // fetch loop for 30 Pokemons (1 page)
-        async function fetchAutoPokemon(num, page, index) {
+        async function fetchAutoPokemon(num, page, startIndex) {
             const pokemons = [];
             let i = 1;
+            let index = startIndex; 
+            // Use local variable for loop to keep Semantic Clarity (Naming) and Guarding the Original Value
+            // It is a "best practice" to not mutate your arguments. 
+            // This keeps functions predictable and makes debugging easier because the input variables stay exactly as they were when the function was called.
+
             while (i <= num) {
-                pokemonIndex = index.toString();
+                let pokemonIndex = index.toString();
                 const apiAutoPokResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonIndex}`);
 
                 if (apiAutoPokResponse.ok) {
@@ -54,18 +66,27 @@ if ( autoGenerateBtn ) {
                 }
             }
             console.log(`Generated ${pokemons.length} pokemons, on the ${page} page, and the last index is ${index}`);
+            
+            // Update the state variables so next time we click, we continue from here
+            currentFetchIndex = index;
+            currentPage = page + 1;
+            
             return pokemons;
         }
         
-        const autoPokemons = await fetchAutoPokemon(30, 1, 1);
+        // Fetch using our state variables
+        const autoPokemons = await fetchAutoPokemon(30, currentPage, currentFetchIndex);
         
-        // Clear previous cards and render all fetched Pokemons
+        // Render all fetched Pokemons (append them to existing cards)
         autoPokemons.forEach(pokemon => renderPokemonCard(pokemon));
+        
+        // Reset button text to prompt for the next page
+        autoGenerateBtn.value = `Load Next 30 (Page ${currentPage})`;
 
     });  
 }
 
-// ........... THE POKEMON SEARCH Fetch ..............
+// ........... THE POKEMON SEARCH Fetch (To add new Pokemon to the board) ..............
 const searchPokemonBtn = document.getElementById("searchAddBtn");
 const nameIdInput = document.getElementById("name-id");
 
