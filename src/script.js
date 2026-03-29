@@ -1,38 +1,36 @@
+// - - - - - - Button: Auto Generate 30 Pokemons. - - - - - - 
 // ........... POKEDEX Fetch Auto Generate ...................
-    // automatically generates 30 (1 page for pagination) Pokemon cards on the Bench page
-const containerPokedex = document.getElementById("pokedex-cards"); // div container where All Pokemon Cards will be located
-const autoGenerateBtn = document.getElementById("autogenBtn"); // "Auto Generate" button for 30 Pokemons
+// automatically generates 30 (1 page for pagination) Pokemon cards on the Bench page
+
+// div container where All Pokemon Cards will be located
+const containerPokedex = document.getElementById("pokedex-cards");
+
+// "Auto Generate" button for 30 Pokemons
+const autoGenerateBtn = document.getElementById("autogenBtn");
 
 // State variables to remember the last fetched pokemon index and current page
 let currentFetchIndex = 1;
 let currentPage = 1;
 
+// Button click event listener. ...
 if ( autoGenerateBtn ) {
     autoGenerateBtn.addEventListener("click", async (event) => {
         event.preventDefault(); // keep wave from form behavior
         
-        // update button state/text to show the loading progress
-        autoGenerateBtn.value = `Loading Page ${currentPage}...`;
-        
-        // button color changes shows that button clicked
+        // Visual effect: update button state/text to show the loading progress
+        autoGenerateBtn.value = `Loading Page ${currentPage}...`; 
+        // Visual effect: button color changes shows that button clicked
         autoGenerateBtn.style.backgroundColor = "green";
             // immediate toggle style
             setTimeout(() => {
                 autoGenerateBtn.style.backgroundColor = "white";
             }, 150);
 
-        // fetch loop for 30 Pokemons (1 page) 
-        // the last index can be founded: "1025". The last index can be generated "1020" on the last page: "34".
+        // FUNCTION: Fetch loop for 30 Pokemons('num'), 1 page ('page'), ordered after 'startIndex'. 
         async function fetchAutoPokemon(num, page, startIndex) {
-            const pokemons = [];
-            const lastGenIndex = 1020; // Limit for Auto Generate Button in index number
-            const lastGenPage = 34; // Limit for Auto Generate Button in pages
-            
+            const pokemons = [];            
             let i = 1;
-            let index = startIndex; 
-            // Use local variable for loop to keep Semantic Clarity (Naming) and Guarding the Original Value
-            // It is a "best practice" to not mutate your arguments. 
-            // This keeps functions predictable and makes debugging easier because the input variables stay exactly as they were when the function was called.
+            let index = startIndex; // local variable keeps Naming and the Original Value.
 
             while (i <= num) {
                 let pokemonIndex = index.toString();
@@ -61,15 +59,14 @@ if ( autoGenerateBtn ) {
                     index++;
                     i++;
                 } else if (apiAutoPokResponse.status === 404) {
-                    index++;
-                    // Skip missing Pokemon
+                    index++; // Skip missing Pokemon
                 } else {
                     console.error("API error", apiAutoPokResponse.status);
                     alert(`Error: ${apiAutoPokResponse.status}`);
                     break; // Stop on error
                 }
             }
-            console.log(`Generated ${pokemons.length} pokemons, on the ${page} page, and the last index is ${index}`);
+            console.log(`Fetched ${pokemons.length} pokemons, on the ${page} page, and the last index is ${index}`);
             
             // Update the state variables so next time we click, we continue from here
             currentFetchIndex = index;
@@ -77,22 +74,50 @@ if ( autoGenerateBtn ) {
             
             return pokemons;
         }
-        
-        // Fetch using our state variables
+        // END of FUNCTION: Fetch loop for 30 Pokemons. 
+        // LIMITS: The last index wich can be generated: "1020", on the last page: "34".
+
+        // Fetch using our state variables: - - - - - - - - - -
         // check if currentFetchIndex !== 1020 and if currentPage !== 35;
         if (currentFetchIndex !== 1020 && currentPage !== 35) {
-        const autoPokemons = await fetchAutoPokemon(30, currentPage, currentFetchIndex);
-        
-        // Render all fetched Pokemons (append them to existing cards)
-        autoPokemons.forEach(pokemon => renderPokemonCard(pokemon));
+            if (currentPage === 1) {
+                const autoPokemons1 = await fetchAutoPokemon(30, currentPage, currentFetchIndex);  
+
+                // If Page 1: Render all fetched Pokemons (append them to existing cards)
+                autoPokemons1.forEach(pokemon => renderPokemonCard(pokemon));
+                console.log(`Generated 30 pokemons, on the ${currentPage - 1} page, and the last index is ${currentFetchIndex}`);
+            } else {
+                // Other Pages will render when Page-Link will be clicked.
+                const autoPokemons2 = await fetchAutoPokemon(30, currentPage, currentFetchIndex); 
+                console.log(autoPokemons2);
+            }
         
         // Reset button text to prompt for the next page
         autoGenerateBtn.value = `Load Next 30 (Page ${currentPage})`;
 
         // Add Page number HTML
         const pagination = document.getElementById("pagination");
-        const addCurPage = pagination.innerHTML += `<span>${currentPage - 1}</span>`;
-        console.log(addCurPage);
+        
+        const addNewPage = document.createElement('input');
+        addNewPage.type = "button";
+        addNewPage.value = `Page ${currentPage - 1}`;
+        addNewPage.id = `page-link-${currentPage - 1}`;
+        pagination.appendChild(addNewPage);
+
+        
+
+        //Add Event listener to the Page-Link buttons
+        const pageLinkBtn = document.getElementById(`page-link-${currentPage - 1}`);
+        if (pageLinkBtn) {
+            pageLinkBtn.addEventListener("click", () => {
+                // change color animation on click
+                pageLinkBtn.style.backgroundColor = "#0c4983";
+                setTimeout(() => {
+                    pageLinkBtn.style.backgroundColor = "#2181dc";
+                }, 1000);
+            });
+        }
+
 
         } else {
             // Reset button text
@@ -110,7 +135,7 @@ if ( autoGenerateBtn ) {
 const searchPokemonBtn = document.getElementById("searchAddBtn");
 const nameIdInput = document.getElementById("name-id");
 
-
+// the last index can be founded: "1025" with API call. 
 if (searchPokemonBtn && nameIdInput) {
     searchPokemonBtn.addEventListener("click", async (event) => {
         event.preventDefault(); // keep wave from form behavior
