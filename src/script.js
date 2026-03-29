@@ -21,9 +21,13 @@ if ( autoGenerateBtn ) {
                 autoGenerateBtn.style.backgroundColor = "white";
             }, 150);
 
-        // fetch loop for 30 Pokemons (1 page)
+        // fetch loop for 30 Pokemons (1 page) 
+        // the last index can be founded: "1025". The last index can be generated "1020" on the last page: "34".
         async function fetchAutoPokemon(num, page, startIndex) {
             const pokemons = [];
+            const lastGenIndex = 1020; // Limit for Auto Generate Button in index number
+            const lastGenPage = 34; // Limit for Auto Generate Button in pages
+            
             let i = 1;
             let index = startIndex; 
             // Use local variable for loop to keep Semantic Clarity (Naming) and Guarding the Original Value
@@ -75,6 +79,8 @@ if ( autoGenerateBtn ) {
         }
         
         // Fetch using our state variables
+        // check if currentFetchIndex !== 1020 and if currentPage !== 35;
+        if (currentFetchIndex !== 1020 && currentPage !== 35) {
         const autoPokemons = await fetchAutoPokemon(30, currentPage, currentFetchIndex);
         
         // Render all fetched Pokemons (append them to existing cards)
@@ -87,6 +93,16 @@ if ( autoGenerateBtn ) {
         const pagination = document.getElementById("pagination");
         const addCurPage = pagination.innerHTML += `<span>${currentPage - 1}</span>`;
         console.log(addCurPage);
+
+        } else {
+            // Reset button text
+            autoGenerateBtn.value = `All Pages are loaded`;
+
+            console.error("Autoload error");
+            alert(`Error: You can not load more pages.`);
+                
+        }
+        
     });  
 }
 
