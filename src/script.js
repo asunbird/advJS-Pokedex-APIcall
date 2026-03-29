@@ -1,6 +1,6 @@
 // ........... POKEDEX Fetch Auto Generate ...................
     // automatically generates 30 (1 page for pagination) Pokemon cards on the Bench page
-const containerPokedex = document.getElementById("pokedex"); // div container where All Pokemon Cards will be located
+const containerPokedex = document.getElementById("pokedex-cards"); // div container where All Pokemon Cards will be located
 const autoGenerateBtn = document.getElementById("autogenBtn"); // "Auto Generate" button for 30 Pokemons
 
 // State variables to remember the last fetched pokemon index and current page
@@ -83,10 +83,14 @@ if ( autoGenerateBtn ) {
         // Reset button text to prompt for the next page
         autoGenerateBtn.value = `Load Next 30 (Page ${currentPage})`;
 
+        // Add Page number HTML
+        const pagination = document.getElementById("pagination");
+        const addCurPage = pagination.innerHTML += `<span>${currentPage - 1}</span>`;
+        console.log(addCurPage);
     });  
 }
 
-// ........... THE POKEMON SEARCH Fetch (To add new Pokemon to the board) ..............
+// ........... THE POKEMON SEARCH Fetch by name or id (To add new Pokemon to the board) ..............
 const searchPokemonBtn = document.getElementById("searchAddBtn");
 const nameIdInput = document.getElementById("name-id");
 
@@ -162,7 +166,7 @@ if (searchPokemonBtn && nameIdInput) {
     });
 }
 
-// ........... RENDER CARDS ..............
+// ........... RENDER Pokemon's CARDS ..............
     // function for rendering Pokemon Card with Pokemon's Parameters
 // containerPokedex declared at top
 
@@ -370,11 +374,88 @@ function renderPokemonCard(pokemon) {
     card.id = formattedId;
 }
 
-// ... 3. Loop through the array and create HTML elements for each Pokémon: ...
-pokemonsArr.forEach(pokemon => {
-    renderPokemonCard(pokemon);
-});
+// Initial rendering if you have a local array (optional)
+if (typeof pokemonsArr !== 'undefined') {
+    pokemonsArr.forEach(pokemon => {
+        renderPokemonCard(pokemon);
+    });
+}
 
 
+// ........... POKEDEX Search Filter (by name or id in the board)...................
+const searchFilterBtn = document.getElementById("search-filter-btn");
+const searchFilterInput = document.getElementById("search-filter-input");
 
+
+if (searchFilterBtn && searchFilterInput) {
+   searchFilterBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    if (!searchFilterInput) {
+        alert("Enter Pokemon name or id to search for!");
+        searchFilterBtn.style.backgroundColor = "grey";
+        setTimeout(() => {
+        searchFilterBtn.style.backgroundColor = "white";
+        }, 150);
+        return;
+    }
+    
+    // Get the user input from the search filter field
+    // Remove any leading/trailing whitespace and convert to lowercase for case-insensitive matching
+    const searchInput = searchFilterInput?.value?.trim().toLowerCase(); // query reads user input
+    const searchNameInput = (searchInput) => {
+        // If it starts with # or is just digits, it's an ID, not a name
+        if (/^#?\d+$/.test(searchInput)) {
+            return null;
+        }
+
+        // Otherwise assume it's a name, capitalize the first letter
+        if (searchInput.length > 0) {
+            return searchInput.charAt(0).toUpperCase() + searchInput.slice(1);
+        }
+        return null;
+    };
+    const searchIdInput = (searchInput) => {
+        // If it starts with # and has 4 digits (total 5 chars), return as is
+        if (/^#\d{4}$/.test(searchInput)) {
+            return searchInput;
+        }
+
+        // Check for numeric input or starting with #
+        if (/^#?\d+$/.test(searchInput)) {
+            const digits = searchInput.replace("#", "");
+            return `#${digits.padStart(4, "0")}`;
+        }
+        return null;
+    };
+
+    // 1. Prepare the search inputs for comparison
+    // We already have 'searchInput' (lowercase) from earlier.
+    const searchInputClean = searchInput.replace("#", ""); 
+
+    // 2. Select all Pokemon cards currently on the board
+    const allCards = containerPokedex.querySelectorAll(".card");
+
+    // 3. Loop through every card to see if it matches
+    allCards.forEach(card => {
+        // Get the Name and ID from the card itself
+        // Convert the card data to lowercase for easy comparison
+        const cardName = card.querySelector(".pokemon-name")?.innerText.trim().toLowerCase();
+        const cardId = card.id; // e.g., "0004"
+
+        // Search Logic: Check if the name or ID includes the user's input
+        const isMatch = (cardName && cardName.includes(searchInput)) || 
+                        (cardId && cardId.includes(searchInputClean));
+
+        // 4. Show if it's a match, hide if it's not
+        if (isMatch || searchInput === "") {
+            card.style.display = "block"; // Show
+        } else {
+            card.style.display = "none";  // Hide
+        }
+    });
+
+    console.log(`Searching for: ${searchInput} (clean: ${searchInputClean})`);
+}); 
+}
 

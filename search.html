@@ -38,12 +38,19 @@
 
     <!-- Pokemon's Cards container with Search filter -->
     <div id="pokedex">
-      <!-- Search filter -->
-      <h3>Search filter inside your board</h3>
-      <div id="search-filter">
-        <input id="search-filter-input" type="text" placeholder="Search Pokemon" />
-        <input id="search-filter-btn" type="button" value="Search" />
+      <div id="filter-section">
+        <!-- Search filter UI inside this section -->
+        <h3>Search filter inside your board</h3>
+        <div id="search-filter">
+          <input id="search-filter-input" type="text" placeholder="Search Pokemon name or id" />
+          <input id="search-filter-btn" type="button" value="Search" />
+        </div>
       </div>
+
+      <!-- Pokemon's Cards container -->
+      <ul id="pokedex-cards"></ul> <!-- Use an <ul> for the list of card items! -->   
+
+      <div id="pagination"></div>
     </div>
 
     <!-- Footer -->

@@ -172,19 +172,18 @@ input::placeholder {
 /* Cards container */
 #pokedex {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     align-content: flex-start;
+    flex-direction: column;
     gap: var(--spacing-unit-md);
     width: 60vw;
-    max-width: 800px;
+    max-width: 860px;
     min-height: 60vh;
     margin: 0 auto;
     padding: var(--spacing-unit-md);
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex: 1;
 }
 #pokedex h3 {
     width: 100%;
@@ -194,8 +193,32 @@ input::placeholder {
     color: black;
     text-align: center;
 }
+#pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-unit-sm);
+    margin: var(--spacing-unit-sm) auto;
+    padding: var(--spacing-unit-md);
+}
 
 /* Start:Cards styles */
+#pokedex-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    gap: var(--spacing-unit-md);
+    width: 60vw;
+    max-width: 800px;
+    min-height: 60vh;
+    margin: var(--spacing-unit-sm) auto;
+    padding: var(--spacing-unit-sm);
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 #pokedex .card {
     display: flex;
     flex-direction: column;
