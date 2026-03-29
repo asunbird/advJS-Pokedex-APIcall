@@ -106,7 +106,7 @@ if ( autoGenerateBtn ) {
     });  
 }
 
-// ........... THE POKEMON SEARCH Fetch by name or id (To add new Pokemon to the board) ..............
+// ........... THE POKEMON Fetch by name or id (To add new Pokemon to the board) ..............
 const searchPokemonBtn = document.getElementById("searchAddBtn");
 const nameIdInput = document.getElementById("name-id");
 
@@ -390,13 +390,6 @@ function renderPokemonCard(pokemon) {
     card.id = formattedId;
 }
 
-// Initial rendering if you have a local array (optional)
-if (typeof pokemonsArr !== 'undefined') {
-    pokemonsArr.forEach(pokemon => {
-        renderPokemonCard(pokemon);
-    });
-}
-
 
 // ........... POKEDEX Search Filter (by name or id in the board)...................
 const searchFilterBtn = document.getElementById("search-filter-btn");
@@ -475,3 +468,4 @@ if (searchFilterBtn && searchFilterInput) {
 }); 
 }
 
+// ............ BATTLE ...................
